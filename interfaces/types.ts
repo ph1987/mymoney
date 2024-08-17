@@ -1,0 +1,1 @@
+export type TypeProps = 'income' | 'spent';
