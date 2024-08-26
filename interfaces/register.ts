@@ -2,9 +2,15 @@ import { TypeProps } from "./types";
 
 export interface Register {
 	id: number,
+	created_at: Date,
+	created_by: string,
+	updated_at?: Date,
+	updated_by: string,
   description: string,
-  value: number,
   category: string,
-  date: Date,
-	type: TypeProps
+  amount: number,
+  transaction_date: Date,
+	transaction_type: TypeProps,
+	username: string
 }
+

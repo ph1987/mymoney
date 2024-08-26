@@ -1,6 +1,6 @@
 interface RegisterForm {
   category: string;
-  value: string;
+  amount: string;
   description: string;
-  type: 'income' | 'spent';
+  type: 'income' | 'expense';
 }

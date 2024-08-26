@@ -1,1 +1,1 @@
-export type TypeProps = 'income' | 'spent';
+export type TypeProps = 'income' | 'expense';
