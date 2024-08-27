@@ -3,12 +3,6 @@ import { db } from '@vercel/postgres';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
-interface Data {
-  month: string;
-  year: string;
-  events: { id: number; name: string; date: string }[];
-}
-
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const month = searchParams.get('month');

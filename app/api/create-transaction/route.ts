@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 
 import { db } from '@vercel/postgres';
-import { revalidatePath } from 'next/cache';
 import { getServerSession } from 'next-auth';
 
 const client = await db.connect();
@@ -52,7 +51,6 @@ export async function POST(request: Request) {
 			newTransaction.transaction_date,
 			newTransaction.username
 		]);
-		revalidatePath("/dashboard");
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to create transaction.');

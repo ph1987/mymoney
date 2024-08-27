@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 
 import { db } from '@vercel/postgres';
-import { revalidatePath } from 'next/cache';
 import { getServerSession } from 'next-auth';
 
 const client = await db.connect();
@@ -51,7 +50,6 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 		const result = await client.query(query, values);
 		const updatedRows = result.rowCount;
 		if (updatedRows === 0) {
-			revalidatePath("/dashboard");
 			return NextResponse.json({ error: 'Transaction not found' }, { status: 404 });
 		}
 		return NextResponse.json({ message: 'Transaction updated successfully' });

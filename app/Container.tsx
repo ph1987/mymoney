@@ -65,7 +65,7 @@ export default function Container() {
       setData(result);
 
       const summary = result.reduce(
-        (acc: SummaryAcc, register: any) => {
+        (acc: SummaryAcc, register: Register) => {
           if (register.transaction_type === "income") {
             acc.incomes += register.amount;
             acc.total += register.amount;
@@ -98,18 +98,16 @@ export default function Container() {
   }, [month, year]);
 
   const deleteRegister = async (id: number) => {
+		setLoading(true);
+		const response = await fetch(`/api/delete-transaction/${id}`, {
+			method: "DELETE",
+		});
 
-			setLoading(true);
-      const response = await fetch(`/api/delete-transaction/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
-      }
-
-      console.log("Deleted transaction:", data);
-      fetchData();
+		if (!response.ok) {
+			setLoading(false);
+			throw new Error(`Error: ${response.status}`);
+		}
+		fetchData();
   };
 
 	//Transactions Modal
@@ -133,71 +131,72 @@ export default function Container() {
     });
   };
 
+	const createRegister = async() => {
+		const monthQuery = searchParams.get('month') || currentMonth();
+		const yearQuery = searchParams.get('year') || String(currentYear());
+
+		const response = await fetch("/api/create-transaction", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				description: formData.description,
+				category: formData.category,
+				amount: Number(formData.amount),
+				transaction_type: formData.type,
+				transaction_date: new Date(Number(yearQuery), Number(monthQuery), 1),
+			}),
+		});
+
+		if (response.ok) {
+			const data = await response.json();
+			console.log("Created transaction:", data);
+			fetchData();
+		} else {
+			const errorData = await response.json();
+			console.error("Error creating transaction:", errorData);
+		}
+
+		setFormData({
+			category: "",
+			amount: "0",
+			description: "",
+			type: "expense",
+		});
+	}
+
+	const editRegister = async() => {
+		const response = await fetch(`/api/edit-transaction/${editId}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				description: formData.description,
+				category: formData.category,
+				amount: Number(formData.amount),
+				transaction_type: formData.type,
+				updated_at: new Date(),
+			}),
+		});
+
+		if (response.ok) {
+			fetchData();
+		} else {
+			const errorData = await response.json();
+			console.error('Error updating transaction:', errorData);
+		}
+		setModalOpen(false);
+	}
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 		setLoading(true);
     if (modalTitle === "Adicionar Registro") {
-			const monthQuery = searchParams.get('month') || currentMonth();
-  		const yearQuery = searchParams.get('year') || String(currentYear());
-
-			const response = await fetch("/api/create-transaction", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					description: formData.description,
-					category: formData.category,
-					amount: Number(formData.amount),
-					transaction_type: formData.type,
-					transaction_date: new Date(Number(yearQuery), Number(monthQuery), 1),
-				}),
-			});
-	
-			if (response.ok) {
-				const data = await response.json();
-				// setMessage('Transaction created successfully!');
-				console.log("Created transaction:", data);
-				fetchData();
-			} else {
-				const errorData = await response.json();
-				// setMessage(`Error: ${errorData.error}`);
-				console.error("Error creating transaction:", "deu ruim");
-			}
-
-      setFormData({
-        category: "",
-        amount: "0",
-        description: "",
-        type: "expense",
-      });
+			await createRegister();
     } else {
-  
-			console.log(formData.description);
-			const response = await fetch(`/api/edit-transaction/${editId}`, {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					description: formData.description,
-					category: formData.category,
-					amount: Number(formData.amount),
-					transaction_type: formData.type,
-					updated_at: new Date(),
-				}),
-			});
-	
-			if (response.ok) {
-				const edittedData = await response.json();
-				console.log(edittedData);
-				fetchData();
-			} else {
-				const errorData = await response.json();
-				console.error('Error updating transaction:', errorData);
-			}
-
-      setModalOpen(false);
+			await editRegister();
     }
 
 		setLoading(false);
