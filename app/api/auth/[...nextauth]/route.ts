@@ -13,6 +13,12 @@ const handler = NextAuth({
 			clientSecret: process.env.FACEBOOK_CLIENT_SECRET!
 		})
 	],
+	callbacks: {
+    async redirect({ url, baseUrl }) {
+      // Garante que o redirecionamento seja feito para o domínio correto
+      return url.startsWith(baseUrl) ? url : baseUrl;
+    }
+  },
   secret: process.env.NEXTAUTH_SECRET,
 })
 
