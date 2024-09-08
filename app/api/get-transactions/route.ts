@@ -11,7 +11,7 @@ export async function GET(request: Request) {
 	const session = await getServerSession();
 
   if (!month || !year || !session?.user?.email) {
-    return [];
+    return NextResponse.json([], { status: 400 });
   }
 
 	const dt = await db<Register>`SELECT * FROM transactions

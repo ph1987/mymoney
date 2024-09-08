@@ -17,6 +17,10 @@ const nextConfig = {
       },
     ],
   },
+	//TODO: Remover essa propriedade depois. SRC: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+	experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
 };
 
 export default nextConfig;
