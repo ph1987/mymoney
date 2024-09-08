@@ -22,7 +22,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { CircularProgress, Grid, LinearProgress, Radio } from "@mui/material";
+import { Button, CircularProgress, Grid, LinearProgress, Radio, Snackbar, SnackbarCloseReason } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import React from "react";
 import { currentMonth, currentYear } from "@/utils/utils";
@@ -47,6 +47,8 @@ export default function Container() {
   const [error, setError] = useState<string | null>(null);
   const [summary, setSummary] = useState<SummaryAcc | null>(null);
 	const [searchText, setSearchText] = useState('');
+	const [openSnack, setOpenSnack] = useState(false);
+	const [snackMessage, setSnackMessage] = useState('');
 
   const searchParams = useSearchParams();
   const month = searchParams.get("month");
@@ -106,6 +108,9 @@ export default function Container() {
 		if (!response.ok) {
 			setLoading(false);
 			throw new Error(`Error: ${response.status}`);
+		} else {
+			setSnackMessage('Registro deletado.');
+			setOpenSnack(true);
 		}
 		fetchData();
   };
@@ -150,8 +155,9 @@ export default function Container() {
 		});
 
 		if (response.ok) {
-			const data = await response.json();
-			console.log("Created transaction:", data);
+			await response.json();
+			setSnackMessage('Registro adicionado.');
+			setOpenSnack(true);
 			fetchData();
 		} else {
 			const errorData = await response.json();
@@ -183,6 +189,8 @@ export default function Container() {
 
 		if (response.ok) {
 			fetchData();
+			setSnackMessage('Registro alterado.');
+			setOpenSnack(true);
 		} else {
 			const errorData = await response.json();
 			console.error('Error updating transaction:', errorData);
@@ -227,6 +235,30 @@ export default function Container() {
 
 	const filteredTransactions = data?.filter(transaction =>
     transaction.description.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+	const handleCloseSnack = (
+    event: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnack(false);
+  };
+
+	const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose} />
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleCloseSnack}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
   );
 
   return (
@@ -462,12 +494,6 @@ export default function Container() {
 					</div>
 				</div>
 			)}
-	
-			{/* {!loading && (
-				<div className="container mx-auto flex flex-row max-w-5xl items-center justify-between py-4 px-6">
-					<Grid xs item><LinearProgress color="success" className="mt-10 z-50" /></Grid>
-				</div>
-			)} */}
 
       {!loading && !error && (data !== null && data.length > 0) && (
         <div className="container mx-auto flex flex-row-reverse max-w-5xl items-center justify-between py-4 px-6">
@@ -526,6 +552,14 @@ export default function Container() {
           </TableContainer>
         </div>
       )}
+			
+			<Snackbar
+        open={openSnack}
+        autoHideDuration={6000}
+        onClose={handleCloseSnack}
+        message={snackMessage}
+        action={action}
+      />
     </>
   );
 }
