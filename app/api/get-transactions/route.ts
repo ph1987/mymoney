@@ -1,4 +1,4 @@
-import { Register } from '@/interfaces/register';
+import type { Register } from '@/interfaces/register';
 import { db } from '@vercel/postgres';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';

@@ -14,12 +14,12 @@ export default async function Header() {
   return (
     <div className="h-20 dark:text-slate-200 bg-slate-800 mb-8 flex justify-center items-center">
         <header className="container mx-auto flex max-w-5xl items-center justify-between py-4 px-6">
-          <a href="#">
-            <div className="w-full text-center text-2xl font-bold sm:w-fit sm:text-left ">
-              <span className="text-green-500">My</span>
-              <span className="text-slate-100">Money</span>
-            </div>
-          </a>
+
+					<div className="w-full text-center text-2xl font-bold sm:w-fit sm:text-left ">
+						<span className="text-green-500">My</span>
+						<span className="text-slate-100">Money</span>
+					</div>
+
           <nav>
             <ul className="flex items-center space-x-2">
               <li className="group relative">

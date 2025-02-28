@@ -1,5 +1,14 @@
 import { Register } from "@/interfaces/register";
-import { TypeProps } from "@/interfaces/types";
+import type { TypeProps } from "@/interfaces/types";
+
+interface Mock {
+	id: number;
+	description: string;
+	value: number;
+	category: string;
+	date: Date;
+	type: TypeProps;
+}
 
 function createData(
 	id: number,
@@ -18,4 +27,4 @@ export const mock = [
 	createData(3, "Condomínio", 1500, "Casa", new Date('2024-08-05 00:00:00'), 'expense'),
   createData(4, "Compras", 1000, "Mercado", new Date('2024-08-10 00:00:00'), 'expense'),
   createData(5, "Pós XPE", 350, "Educação", new Date('2024-08-11 00:00:00'), 'expense'),
-] as any[];
+] as Mock[];

@@ -79,7 +79,7 @@ export default function Filters() {
         		onChange={(e) => setSelectedMonth(e.target.value)}
           >
             {monthsArray()?.map((row, index) => (
-              <MenuItem key={index} value={index.toString()}>
+              <MenuItem key={row} value={index.toString()}>
                 {row}
               </MenuItem>
             ))}

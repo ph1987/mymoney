@@ -1,8 +1,9 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
-import { Register } from "@/interfaces/register";
+import type { Register } from "@/interfaces/register";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -12,7 +13,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
-import { TypeProps } from "@/interfaces/types";
+import type { TypeProps } from "@/interfaces/types";
 import Filters from "./Filters";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -22,7 +23,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { Button, CircularProgress, Grid, LinearProgress, Radio, Snackbar, SnackbarCloseReason } from "@mui/material";
+import { Button, CircularProgress, Grid, LinearProgress, Radio, Snackbar } from "@mui/material";
+import type { SnackbarCloseReason } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import React from "react";
 import { currentMonth, currentYear } from "@/utils/utils";
@@ -85,13 +87,18 @@ export default function Container() {
       );
 
       setSummary(summary);
-    } catch (error: any) {
-      setError(error.message);
+    } catch (error: unknown) {
+			if (error instanceof Error) {
+				setError(error.message);
+			} else {
+				setError("Erro desconhecido");
+			}
     } finally {
       setLoading(false);
     }
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (month && year) {
       fetchData();
@@ -108,10 +115,9 @@ export default function Container() {
 		if (!response.ok) {
 			setLoading(false);
 			throw new Error(`Error: ${response.status}`);
-		} else {
-			setSnackMessage('Registro deletado.');
-			setOpenSnack(true);
 		}
+		setSnackMessage('Registro deletado.');
+		setOpenSnack(true);
 		fetchData();
   };
 
@@ -371,6 +377,7 @@ export default function Container() {
 
 				<div>
 					<button
+						type="button"
 						onClick={handleModalCreate}
 						className="px-3 py-3 bg-green-600 text-white rounded hover:bg-green-400 mt-40"
 					>
@@ -380,10 +387,14 @@ export default function Container() {
 						<div
 							className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70"
 							onClick={handleClose}
+							onKeyDown={(e) => {
+								if (e.key === 'Escape') handleClose();
+							}}
 						>
 							<div
 								className="bg-white rounded-lg p-6 min-w-96"
 								onClick={(e) => e.stopPropagation()}
+								onKeyUp={(e) => e.stopPropagation()}
 							>
 								<div className="flex justify-between">
 									<h2
@@ -510,7 +521,8 @@ export default function Container() {
                   <TableCell className="font-semibold text-slate-100">
                     Categoria
                   </TableCell>
-                  <TableCell></TableCell>
+                  <TableCell>
+									</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
