@@ -1,4 +1,4 @@
-import { TypeProps } from "./types";
+import type { TypeProps } from "./types";
 
 export interface Register {
 	id: number,
