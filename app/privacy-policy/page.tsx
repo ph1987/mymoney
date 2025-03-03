@@ -730,7 +730,7 @@ export default function PrivacyPolicy() {
               target="_blank"
               className="text-green-500 hover:underline"
             >
-              TermsFeed website
+              TermsFeed
             </a>
             .
           </p>
@@ -753,6 +753,7 @@ export default function PrivacyPolicy() {
                 serviços.
               </p>
             </li>
+						<br/>
             <li>
               <strong>
                 Política de Cookies / Cookies de Aceitação de Aviso
@@ -764,6 +765,7 @@ export default function PrivacyPolicy() {
                 uso de cookies no Site.
               </p>
             </li>
+						<br/>
             <li>
               <strong>Cookies de Funcionalidade</strong>
               <p>Tipo: Cookies Persistentes</p>
@@ -777,6 +779,7 @@ export default function PrivacyPolicy() {
                 o Site.
               </p>
             </li>
+						<br/>
           </ul>
           <h3 className="text-xl font-semibold mb-2 text-green-300">
             Uso dos Seus Dados Pessoais
@@ -1233,7 +1236,7 @@ export default function PrivacyPolicy() {
               target="_blank"
               className="text-green-500 hover:underline"
             >
-              sitio TermsFeed
+              TermsFeed
             </a>
             .
           </p>
@@ -1256,6 +1259,7 @@ export default function PrivacyPolicy() {
                 brindarle dichos servicios.
               </p>
             </li>
+						<br/>
             <li>
               <strong>
                 Política de Cookies / Cookies de Aceptación de Aviso
@@ -1267,6 +1271,7 @@ export default function PrivacyPolicy() {
                 aceptado el uso de cookies en el Sitio.
               </p>
             </li>
+						<br/>
             <li>
               <strong>Cookies de Funcionalidad</strong>
               <p>Tipo: Cookies Persistentes</p>
@@ -1280,6 +1285,7 @@ export default function PrivacyPolicy() {
                 utiliza el Sitio.
               </p>
             </li>
+						<br/>
           </ul>
           <h3 className="text-xl font-semibold mb-2 text-green-300">
             Uso de sus Datos Personales
