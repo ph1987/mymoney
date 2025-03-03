@@ -92,7 +92,7 @@ export default function Container({ translation }: { translation: Translation })
 			if (error instanceof Error) {
 				setError(error.message);
 			} else {
-				setError("Erro desconhecido");
+				setError(translation.UNKONWN_ERROR);
 			}
     } finally {
       setLoading(false);
@@ -117,7 +117,7 @@ export default function Container({ translation }: { translation: Translation })
 			setLoading(false);
 			throw new Error(`Error: ${response.status}`);
 		}
-		setSnackMessage('Registro deletado.');
+		setSnackMessage(translation.REGISTER_DELETED);
 		setOpenSnack(true);
 		fetchData();
   };
@@ -163,12 +163,12 @@ export default function Container({ translation }: { translation: Translation })
 
 		if (response.ok) {
 			await response.json();
-			setSnackMessage('Registro adicionado.');
+			setSnackMessage(translation.REGISTER_CREATED);
 			setOpenSnack(true);
 			fetchData();
 		} else {
 			const errorData = await response.json();
-			console.error("Error creating transaction:", errorData);
+			console.error(translation.ERROR_CREATING_TRANSACTION, errorData);
 		}
 
 		setFormData({
@@ -196,11 +196,11 @@ export default function Container({ translation }: { translation: Translation })
 
 		if (response.ok) {
 			fetchData();
-			setSnackMessage('Registro alterado.');
+			setSnackMessage(translation.REGISTER_UPDATED);
 			setOpenSnack(true);
 		} else {
 			const errorData = await response.json();
-			console.error('Error updating transaction:', errorData);
+			console.error(translation.ERROR_UPDATING_TRANSACTION, errorData);
 		}
 		setModalOpen(false);
 	}
@@ -282,7 +282,7 @@ export default function Container({ translation }: { translation: Translation })
           )}
           {error && (
             <div className="flex flex-col mt-6">
-              <p>Error: {error} | Tente atualizar a página</p>
+              <p>Error: {error} | {translation.TRY_REFRESHING_PAGE}</p>
             </div>
           )}
 

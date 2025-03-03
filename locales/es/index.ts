@@ -17,6 +17,13 @@ const es = {
 	EDIT_REGISTER: "Editar Registro",
 	EDIT: "Editar",
 	DELETE: "Eliminar",
+	REGISTER_CREATED: "Registro creado",
+	REGISTER_UPDATED: "Registro actualizado",
+	REGISTER_DELETED: "Registro eliminado",
+	UNKONWN_ERROR: "Error desconocido",
+	ERROR_CREATING_TRANSACTION: "Error al crear transacción",
+	ERROR_UPDATING_TRANSACTION: "Error al actualizar transacción",
+	TRY_REFRESHING_PAGE: "Intenta actualizar la página",
 
 	JANUARY: 'Enero',
 	FEBRUARY: 'Febrero',
