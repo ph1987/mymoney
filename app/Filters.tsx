@@ -9,8 +9,9 @@ import {
   yearsArray,
 } from "@/utils/utils";
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Translation } from "@/i18n";
 
-export default function Filters() {
+export default function Filters({ translation }: { translation: Translation }) {
 
 	const router = useRouter();
   const searchParams = useSearchParams();
@@ -45,7 +46,7 @@ export default function Filters() {
             }}
             id="month"
           >
-            Mês
+            {translation.MONTH}
           </InputLabel>
           <Select
             sx={{
@@ -74,11 +75,11 @@ export default function Filters() {
             }}
             labelId="month"
             id="month"
-            label="Mês"
+            label={translation.MONTH}
             value={selectedMonth}
         		onChange={(e) => setSelectedMonth(e.target.value)}
           >
-            {monthsArray()?.map((row, index) => (
+            {monthsArray(translation)?.map((row, index) => (
               <MenuItem key={row} value={index.toString()}>
                 {row}
               </MenuItem>
@@ -97,7 +98,7 @@ export default function Filters() {
             }}
             id="year"
           >
-            Ano
+            {translation.YEAR}
           </InputLabel>
           <Select
             sx={{
@@ -126,7 +127,7 @@ export default function Filters() {
             }}
             labelId="year"
             id="year"
-            label="Ano"
+            label={translation.YEAR}
             value={selectedYear}
         		onChange={(e) => setSelectedYear(e.target.value)}
           >

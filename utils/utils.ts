@@ -1,3 +1,5 @@
+import { Translation } from "@/i18n";
+
 export const titleCase = (text: string) : string => {
   return text[0].toUpperCase() + text.slice(1).toLowerCase();
 }
@@ -12,20 +14,20 @@ export const currentYear = () : number => {
 	return new Date().getFullYear();
 }
 
-export const monthsArray = () : string[] => {
+export const monthsArray = (translation: Translation) : string[] => {
 	return [
-		"Janeiro",
-		"Fevereiro",
-		"Março",
-		"Abril",
-		"Maio",
-		"Junho",
-		"Julho",
-		"Agosto",
-		"Setembro",
-		"Outubro",
-		"Novembro",
-		"Dezembro"
+		translation?.JANUARY,
+		translation?.FEBRUARY,
+		translation?.MARCH,
+		translation?.APRIL,
+		translation?.MAY,
+		translation?.JUNE,
+		translation?.JULY,
+		translation?.AUGUST,
+		translation?.SEPTEMBER,
+		translation?.OCTOBER,
+		translation?.NOVEMBER,
+		translation?.DECEMBER
 	]
 }
 

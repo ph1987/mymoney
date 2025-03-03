@@ -29,6 +29,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import React from "react";
 import { currentMonth, currentYear } from "@/utils/utils";
 import WarningIcon from '@mui/icons-material/Warning';
+import { Translation } from "@/i18n";
 
 interface SummaryAcc {
   incomes: number;
@@ -43,7 +44,7 @@ const getColorTextByType = (type: TypeProps) => {
   return "text-rose-700";
 };
 
-export default function Container() {
+export default function Container({ translation }: { translation: Translation }) {
   const [data, setData] = useState<Register[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -124,7 +125,7 @@ export default function Container() {
 	//Transactions Modal
 	const [modalOpen, setModalOpen] = React.useState(false);
   const handleClose = () => setModalOpen(false);
-	const [modalTitle, setModalTitle] = React.useState("Adicionar Registro");
+	const [modalTitle, setModalTitle] = React.useState(translation.ADD_REGISTER);
 	const [editId, setEditId] = React.useState(0);
 
 	const [formData, setFormData] = useState<RegisterForm>({
@@ -207,7 +208,7 @@ export default function Container() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 		setLoading(true);
-    if (modalTitle === "Adicionar Registro") {
+    if (modalTitle === translation.ADD_REGISTER) {
 			await createRegister();
     } else {
 			await editRegister();
@@ -223,12 +224,12 @@ export default function Container() {
 			description: "",
 			type: "expense",
 		});
-    setModalTitle("Adicionar Registro");
+    setModalTitle(translation.ADD_REGISTER);
     setModalOpen(true);
   };
 
   const handleModalEdit = (row: Register) => {
-    setModalTitle("Editar Registro");
+    setModalTitle(translation.EDIT_REGISTER);
     setModalOpen(true);
     setEditId(row.id);
     setFormData({
@@ -271,7 +272,7 @@ export default function Container() {
     <>
       <div className="container mx-auto flex flex-row max-w-5xl items-center justify-between py-4 px-6">
         <div className="flex flex-col">
-          <Filters />
+          <Filters translation={translation} />
 
 					
           {loading && (
@@ -288,7 +289,7 @@ export default function Container() {
 					{!loading && !error && (
 						<div className="flex flex-col mt-6">
 							<p>
-								<span className="text-slate-200 font-medium">Receitas:</span>
+								<span className="text-slate-200 font-medium">{translation.REVENUES}:</span>
 								<span className="text-green-600 ml-2">
 									{summary?.incomes
 										? new Intl.NumberFormat("pt-BR", {
@@ -299,7 +300,7 @@ export default function Container() {
 								</span>
 							</p>
 							<p>
-								<span className="text-slate-200 font-medium">Despesas:</span>
+								<span className="text-slate-200 font-medium">{translation.EXPENSES}:</span>
 								<span className="text-red-600 ml-2">
 									{summary?.spents
 										? new Intl.NumberFormat("pt-BR", {
@@ -310,7 +311,7 @@ export default function Container() {
 								</span>
 							</p>
 							<p>
-								<span className="text-slate-200 font-medium">Balanço:</span>
+								<span className="text-slate-200 font-medium">{translation.BALANCE}:</span>
 								<span
 									className={`ml-2 ${
 										summary?.total === 0 ? "text-red-600" : "text-green-600"
@@ -367,7 +368,7 @@ export default function Container() {
 										},
 									}}
 								/>
-								<IconButton aria-label="search" title="Buscar por descrição">
+								<IconButton aria-label="search" title={translation.SEARCH_BY_DESCRIPTION}>
 									<SearchIcon style={{ fill: "green" }} />
 								</IconButton>
 							</div>
@@ -381,7 +382,7 @@ export default function Container() {
 						onClick={handleModalCreate}
 						className="px-3 py-3 bg-green-600 text-white rounded hover:bg-green-400 mt-40"
 					>
-						Adicionar Registro
+						{translation.ADD_REGISTER}
 					</button>
 					{modalOpen && (
 						<div
@@ -416,7 +417,7 @@ export default function Container() {
 									>
 										<TextField
 											id="description"
-											label="Descrição"
+											label={translation.DESCRIPTION}
 											sx={{ m: 1 }}
 											InputLabelProps={{
 												shrink: true,
@@ -427,7 +428,7 @@ export default function Container() {
 										/>
 										<TextField
 											id="amount"
-											label="Valor"
+											label={translation.VALUE}
 											sx={{ m: 1 }}
 											InputProps={{
 												startAdornment: (
@@ -440,7 +441,7 @@ export default function Container() {
 										/>
 										<TextField
 											id="category"
-											label="Categoria"
+											label={translation.CATEGORY}
 											sx={{ m: 1 }}
 											InputLabelProps={{
 												shrink: true,
@@ -467,7 +468,7 @@ export default function Container() {
 															onChange={handleChangeForm}
 														/>
 													}
-													label="Saída"
+													label={translation.EXPENSE}
 												/>
 												<FormControlLabel
 													value="income"
@@ -478,7 +479,7 @@ export default function Container() {
 															onChange={handleChangeForm}
 														/>
 													}
-													label="Entrada"
+													label={translation.REVENUE}
 												/>
 											</RadioGroup>
 										</FormControl>
@@ -501,7 +502,7 @@ export default function Container() {
 				<div className="container mx-auto flex flex-row max-w-5xl items-center justify-between py-4 px-6">
 					<div className="container mx-auto mt-10 bg-green-700 py-4 px-4 flex items-center justify-center">
 						<WarningIcon fontSize="small" />
-						<span className="ml-2 pt-1">Nenhuma transação no período selecionado</span>
+						<span className="ml-2 pt-1">{translation.NO_TRANSACTIONS_FOUND}</span>
 					</div>
 				</div>
 			)}
@@ -513,13 +514,13 @@ export default function Container() {
               <TableHead>
                 <TableRow className="bg-green-500">
                   <TableCell className="font-semibold text-slate-100">
-                    Descrição
+										{translation.DESCRIPTION}
                   </TableCell>
                   <TableCell className="font-semibold text-slate-100">
-                    Valor
+										{translation.VALUE}
                   </TableCell>
                   <TableCell className="font-semibold text-slate-100">
-                    Categoria
+										{translation.CATEGORY}
                   </TableCell>
                   <TableCell>
 									</TableCell>
@@ -548,13 +549,13 @@ export default function Container() {
                       <EditIcon
                         className="cursor-pointer"
                         onClick={() => handleModalEdit(row)}
-                        titleAccess="Editar"
+                        titleAccess={translation.EDIT}
                       />
                       &nbsp;&nbsp;
                       <DeleteIcon
                         className="cursor-pointer"
                         onClick={() => deleteRegister(row.id)}
-                        titleAccess="Deletar"
+                        titleAccess={translation.DELETE}
                       />
                     </TableCell>
                   </TableRow>

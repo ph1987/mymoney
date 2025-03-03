@@ -5,6 +5,7 @@ import Image from "next/image";
 
 export interface LoginProps {
   provider: "google" | "facebook";
+	title: string;
 }
 
 export default function LoginBtn(props: LoginProps) {
@@ -18,7 +19,7 @@ export default function LoginBtn(props: LoginProps) {
       hover:bg-gray-100 focus:ring-4 focus:ring-gray-100"
     >
       <Image src={imgPath} alt="" width={32} height={32} />
-      Login com {titleCase(props.provider)}
+      {props.title}
     </button>
   );
 }
