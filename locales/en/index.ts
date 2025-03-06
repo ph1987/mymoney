@@ -40,6 +40,13 @@ const en = {
 
 	PRIVACY_POLICY: "Privacy Policy",
 	BACK_TO_HOME: "Back to Home",
+
+	MANAGE_YOUR_FINANCES_SIMPLY: "Manage your finances simply",
+  MY_MONEY_DESCRIPTION:
+    "MyMoney is a personal financial management application that helps you organize revenue, expenses, and keep track of your balance.",
+  MAIN_MANAGEMENT_SCREEN: "Main management screen",
+  CREATE_RECORD_MODAL: "Record creation modal",
+  MY_MONEY_FOOTER: "MyMoney. All rights reserved.",
 };
 
 export default en;

@@ -38,8 +38,15 @@ const pt = {
   NOVEMBER: "Novembro",
   DECEMBER: "Dezembro",
 
-	PRIVACY_POLICY: "Política de Privacidade",
-	BACK_TO_HOME: "Voltar para a página inicial",
+  PRIVACY_POLICY: "Política de Privacidade",
+  BACK_TO_HOME: "Voltar para a página inicial",
+
+  MANAGE_YOUR_FINANCES_SIMPLY: "Gerencie suas finanças de forma simples",
+  MY_MONEY_DESCRIPTION:
+    "MyMoney é uma aplicação de gestão financeira pessoal que ajuda você a organizar receitas, despesas e manter o controle do seu saldo.",
+  MAIN_MANAGEMENT_SCREEN: "Tela principal de gerenciamento",
+  CREATE_RECORD_MODAL: "Modal de criação de registro",
+  MY_MONEY_FOOTER: "MyMoney. Todos os direitos reservados.",
 };
 
 export default pt;

@@ -7,26 +7,30 @@ import { ArrowLeft } from "@mui/icons-material";
 export default function PrivacyPolicy() {
   const cookieStore = cookies();
   const lang = cookieStore.get("lang")?.value || "en";
-	const translation = getTranslation(lang);
+  const translation = getTranslation(lang);
 
   return (
-    <>
-      <div className="h-20 dark:text-slate-200 bg-slate-800 mb-8 flex justify-center items-center">
-        <header className="container mx-auto flex max-w-5xl items-center justify-between py-4 px-6">
-          <div className="w-full text-center text-2xl font-bold sm:w-fit sm:text-left ">
-            <a href="/">
-              <span className="text-green-500">My</span>
-              <span className="text-slate-100">Money</span>
-            </a>
-          </div>
-        </header>
-      </div>
+    <div className="min-h-screen flex flex-col bg-gray-900 text-white">
+      <header className="bg-gray-800 px-8 py-4">
+        <h1 className="text-2xl font-bold ml-10">
+					<a href="/">
+						<span className="text-green-500">My</span>
+						<span className="text-slate-100">Money</span>
+					</a>
+        </h1>
+        <LanguageSwitcher />
+      </header>
 
       <LanguageSwitcher />
 
-			<div className="max-w-4xl mx-auto text-right">
-				<p><a href='/'><ArrowLeft />{translation.BACK_TO_HOME}</a></p>
-			</div>
+      <div className="max-w-6xl text-right mt-6 mr-6">
+        <p>
+          <a href="/" className="hover:text-green-600">
+            <ArrowLeft />
+            {translation.BACK_TO_HOME}
+          </a>
+        </p>
+      </div>
 
       {lang === "en" && (
         <div className="max-w-5xl mx-auto p-8">
@@ -753,7 +757,7 @@ export default function PrivacyPolicy() {
                 serviços.
               </p>
             </li>
-						<br/>
+            <br />
             <li>
               <strong>
                 Política de Cookies / Cookies de Aceitação de Aviso
@@ -765,7 +769,7 @@ export default function PrivacyPolicy() {
                 uso de cookies no Site.
               </p>
             </li>
-						<br/>
+            <br />
             <li>
               <strong>Cookies de Funcionalidade</strong>
               <p>Tipo: Cookies Persistentes</p>
@@ -779,7 +783,7 @@ export default function PrivacyPolicy() {
                 o Site.
               </p>
             </li>
-						<br/>
+            <br />
           </ul>
           <h3 className="text-xl font-semibold mb-2 text-green-300">
             Uso dos Seus Dados Pessoais
@@ -1259,7 +1263,7 @@ export default function PrivacyPolicy() {
                 brindarle dichos servicios.
               </p>
             </li>
-						<br/>
+            <br />
             <li>
               <strong>
                 Política de Cookies / Cookies de Aceptación de Aviso
@@ -1271,7 +1275,7 @@ export default function PrivacyPolicy() {
                 aceptado el uso de cookies en el Sitio.
               </p>
             </li>
-						<br/>
+            <br />
             <li>
               <strong>Cookies de Funcionalidad</strong>
               <p>Tipo: Cookies Persistentes</p>
@@ -1285,7 +1289,7 @@ export default function PrivacyPolicy() {
                 utiliza el Sitio.
               </p>
             </li>
-						<br/>
+            <br />
           </ul>
           <h3 className="text-xl font-semibold mb-2 text-green-300">
             Uso de sus Datos Personales
@@ -1522,6 +1526,22 @@ export default function PrivacyPolicy() {
           </ul>
         </div>
       )}
-    </>
+      <footer className="bg-gray-800 py-4 text-gray-400 mt-auto">
+        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 items-center">
+          <div className="hidden md:block"></div>
+          <p className="text-sm text-center">
+            © {new Date().getFullYear()} {translation.MY_MONEY_FOOTER}
+          </p>
+          <div className="mt-4 md:mt-0 text-center md:text-right mr-10">
+            <a
+              href="/privacy-policy"
+              className="text-sm text-green-500 hover:text-green-600"
+            >
+              {translation.PRIVACY_POLICY}
+            </a>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }

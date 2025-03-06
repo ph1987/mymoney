@@ -1,14 +1,15 @@
 import Head from "next/head";
 import Image from "next/image";
+import LanguageSwitcher from "../LanguageSwitcher";
+import LoginBtn from "../LoginBtn";
 import { cookies } from "next/headers";
 import { getTranslation } from "@/i18n";
-import LanguageSwitcher from "./LanguageSwitcher";
-import LoginBtn from "./LoginBtn";
 
 export default function Landing() {
-  const cookieStore = cookies();
-  const lang = cookieStore.get("lang")?.value || "en";
-  const translation = getTranslation(lang);
+
+	const cookieStore = cookies();
+	const lang = cookieStore.get('lang')?.value || 'en';
+	const translation = getTranslation(lang);
 
   return (
     <>
@@ -32,10 +33,12 @@ export default function Landing() {
         <main className="flex-1 container mx-auto px-4 py-8">
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="text-xl font-bold mb-3 text-green-400">
-              {translation.MANAGE_YOUR_FINANCES_SIMPLY}
+              Gerencie suas finanças de forma simples
             </h2>
             <p className="mb-8 text-gray-300 text-sm">
-              {translation.MY_MONEY_DESCRIPTION}
+              MyMoney é uma aplicação de gestão financeira pessoal que ajuda
+              você a organizar receitas, despesas e manter o controle do seu
+              saldo.
             </p>
           </div>
 
@@ -49,7 +52,7 @@ export default function Landing() {
                 className="rounded shadow-md"
               />
               <p className="mt-4 text-gray-300 text-sm">
-                {translation.MAIN_MANAGEMENT_SCREEN}
+                Tela principal de gerenciamento
               </p>
             </div>
             <div className="flex flex-col items-center">
@@ -61,7 +64,7 @@ export default function Landing() {
                 className="rounded shadow-md"
               />
               <p className="mt-4 text-gray-300 text-sm">
-                {translation.CREATE_RECORD_MODAL}
+                Modal de criação de registro
               </p>
             </div>
           </div>
@@ -80,9 +83,10 @@ export default function Landing() {
           <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 items-center">
             <div className="hidden md:block"></div>
             <p className="text-sm text-center">
-              © {new Date().getFullYear()} {translation.MY_MONEY_FOOTER}
+              © {new Date().getFullYear()} MyMoney. Todos os direitos
+              reservados.
             </p>
-            <div className="mt-4 md:mt-0 text-center md:text-right mr-10">
+            <div className="mt-4 md:mt-0 text-center md:text-right">
               <a
                 href="/privacy-policy"
                 className="text-sm text-green-500 hover:text-green-600"

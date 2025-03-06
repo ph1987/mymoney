@@ -14,7 +14,7 @@ export default async function Page() {
     <>
       <Header />
 			<Container translation={translation} />
-			<LanguageSwitcher />
+			{/* <LanguageSwitcher /> */}
     </>
   );
 }

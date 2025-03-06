@@ -40,6 +40,13 @@ const es = {
 
 	PRIVACY_POLICY: "Política de Privacidad",
 	BACK_TO_HOME: "Volver a la página de inicio",
+
+	MANAGE_YOUR_FINANCES_SIMPLY: "Administre sus finanzas de forma sencilla",
+  MY_MONEY_DESCRIPTION:
+    "MyMoney es una aplicación de gestión financiera personal que le ayuda a organizar ingresos, gastos y llevar un control de su saldo.",
+  MAIN_MANAGEMENT_SCREEN: "Pantalla principal de gestión",
+  CREATE_RECORD_MODAL: "Modal de creación de registro",
+  MY_MONEY_FOOTER: "MyMoney. Todos los derechos reservados.",
 };
 
 export default es;
