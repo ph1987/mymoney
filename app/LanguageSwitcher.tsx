@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 export default function LanguageSwitcher() {
   const router = useRouter();
-  const [activeLang, setActiveLang] = useState('en');
+  const [activeLang, setActiveLang] = useState('');
 
   useEffect(() => {
     const langCookie = document.cookie
