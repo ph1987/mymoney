@@ -14,7 +14,9 @@ export default function LanguageSwitcher() {
       .find(row => row.startsWith('lang='));
     if (langCookie) {
       setActiveLang(langCookie.split('=')[1]);
-    }
+    } else {
+			setActiveLang('en');
+		}
   }, []);
 
   const changeLanguage = (lang: string) => {
