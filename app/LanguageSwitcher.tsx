@@ -1,4 +1,3 @@
-// components/LanguageSwitcher.tsx
 'use client';
 import { useRouter } from 'next/navigation';
 import styles from './css/LanguageSwitcher.module.css';
@@ -10,7 +9,6 @@ export default function LanguageSwitcher() {
   const [activeLang, setActiveLang] = useState('en');
 
   useEffect(() => {
-    // Lê o cookie e atualiza o estado com o idioma ativo
     const langCookie = document.cookie
       .split('; ')
       .find(row => row.startsWith('lang='));
@@ -21,7 +19,7 @@ export default function LanguageSwitcher() {
 
   const changeLanguage = (lang: string) => {
     document.cookie = `lang=${lang}; path=/`;
-    setActiveLang(lang); // Atualiza o estado para refletir a alteração
+    setActiveLang(lang);
     router.refresh();
   };
 

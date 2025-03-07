@@ -1,8 +1,8 @@
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LanguageSwitcher from "../LanguageSwitcher";
 import { cookies } from "next/headers";
 import { getTranslation } from "@/i18n";
 import { ArrowLeft } from "@mui/icons-material";
+import BackButton from "../BackButton";
 
 export default function PrivacyPolicy() {
   const cookieStore = cookies();
@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-900 text-white">
-      <header className="bg-gray-800 px-8 py-4">
+      <header className="bg-gray-800 px-2 py-4">
         <h1 className="text-2xl font-bold ml-10">
 					<a href="/">
 						<span className="text-green-500">My</span>
@@ -24,12 +24,7 @@ export default function PrivacyPolicy() {
       <LanguageSwitcher />
 
       <div className="max-w-6xl text-right mt-6 mr-6">
-        <p>
-          <a href="/" className="hover:text-green-600">
-            <ArrowLeft />
-            {translation.BACK_TO_HOME}
-          </a>
-        </p>
+				<BackButton translation={translation} />
       </div>
 
       {lang === "en" && (

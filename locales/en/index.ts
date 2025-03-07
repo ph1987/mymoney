@@ -1,6 +1,6 @@
 const en = {
-  LOGIN_WITH_FACEBOOK: "Login with Facebook",
-  LOGIN_WITH_GOOGLE: "Login with Google",
+  LOGIN_WITH_FACEBOOK: "Enter with Facebook",
+  LOGIN_WITH_GOOGLE: "Enter with Google",
   MONTH: "Month",
   YEAR: "Year",
   REVENUE: "Revenue",
@@ -24,6 +24,8 @@ const en = {
   ERROR_CREATING_TRANSACTION: "Error creating transaction",
   ERROR_UPDATING_TRANSACTION: "Error updating transaction",
   TRY_REFRESHING_PAGE: "Try refreshing the page",
+	ADD: "Add",
+	COIN_SYMBOL: "$",
 
   JANUARY: "January",
   FEBRUARY: "February",
@@ -39,7 +41,7 @@ const en = {
   DECEMBER: "December",
 
 	PRIVACY_POLICY: "Privacy Policy",
-	BACK_TO_HOME: "Back to Home",
+	BACK: "Back",
 
 	MANAGE_YOUR_FINANCES_SIMPLY: "Manage your finances simply",
   MY_MONEY_DESCRIPTION:
@@ -47,6 +49,13 @@ const en = {
   MAIN_MANAGEMENT_SCREEN: "Main management screen",
   CREATE_RECORD_MODAL: "Record creation modal",
   MY_MONEY_FOOTER: "MyMoney. All rights reserved.",
+
+	PORTUGUESE: "Portuguese",
+	ENGLISH: "English",
+	SPANISH: "Spanish",
+
+	PRINT_LIST: "/dash-list-en.png",
+	PRINT_ADD: "/dash-add-en.png",
 };
 
 export default en;

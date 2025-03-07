@@ -17,18 +17,25 @@ import type { TypeProps } from "@/interfaces/types";
 import Filters from "./Filters";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { Button, CircularProgress, Grid, LinearProgress, Radio, Snackbar } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Grid,
+  LinearProgress,
+  Radio,
+  Snackbar,
+} from "@mui/material";
 import type { SnackbarCloseReason } from "@mui/material";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
 import { currentMonth, currentYear } from "@/utils/utils";
-import WarningIcon from '@mui/icons-material/Warning';
+import WarningIcon from "@mui/icons-material/Warning";
 import { Translation } from "@/i18n";
 
 interface SummaryAcc {
@@ -44,14 +51,20 @@ const getColorTextByType = (type: TypeProps) => {
   return "text-rose-700";
 };
 
-export default function Container({ translation }: { translation: Translation }) {
+export default function Container({
+  translation,
+  lang,
+}: {
+  translation: Translation;
+  lang: string;
+}) {
   const [data, setData] = useState<Register[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [summary, setSummary] = useState<SummaryAcc | null>(null);
-	const [searchText, setSearchText] = useState('');
-	const [openSnack, setOpenSnack] = useState(false);
-	const [snackMessage, setSnackMessage] = useState('');
+  const [searchText, setSearchText] = useState("");
+  const [openSnack, setOpenSnack] = useState(false);
+  const [snackMessage, setSnackMessage] = useState("");
 
   const searchParams = useSearchParams();
   const month = searchParams.get("month");
@@ -89,11 +102,11 @@ export default function Container({ translation }: { translation: Translation })
 
       setSummary(summary);
     } catch (error: unknown) {
-			if (error instanceof Error) {
-				setError(error.message);
-			} else {
-				setError(translation.UNKONWN_ERROR);
-			}
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError(translation.UNKONWN_ERROR);
+      }
     } finally {
       setLoading(false);
     }
@@ -108,34 +121,34 @@ export default function Container({ translation }: { translation: Translation })
   }, [month, year]);
 
   const deleteRegister = async (id: number) => {
-		setLoading(true);
-		const response = await fetch(`/api/delete-transaction/${id}`, {
-			method: "DELETE",
-		});
+    setLoading(true);
+    const response = await fetch(`/api/delete-transaction/${id}`, {
+      method: "DELETE",
+    });
 
-		if (!response.ok) {
-			setLoading(false);
-			throw new Error(`Error: ${response.status}`);
-		}
-		setSnackMessage(translation.REGISTER_DELETED);
-		setOpenSnack(true);
-		fetchData();
+    if (!response.ok) {
+      setLoading(false);
+      throw new Error(`Error: ${response.status}`);
+    }
+    setSnackMessage(translation.REGISTER_DELETED);
+    setOpenSnack(true);
+    fetchData();
   };
 
-	//Transactions Modal
-	const [modalOpen, setModalOpen] = React.useState(false);
+  //Transactions Modal
+  const [modalOpen, setModalOpen] = React.useState(false);
   const handleClose = () => setModalOpen(false);
-	const [modalTitle, setModalTitle] = React.useState(translation.ADD_REGISTER);
-	const [editId, setEditId] = React.useState(0);
+  const [modalTitle, setModalTitle] = React.useState(translation.ADD_REGISTER);
+  const [editId, setEditId] = React.useState(0);
 
-	const [formData, setFormData] = useState<RegisterForm>({
+  const [formData, setFormData] = useState<RegisterForm>({
     category: "",
     amount: "0",
     description: "",
     type: "expense",
   });
 
-	const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -143,87 +156,87 @@ export default function Container({ translation }: { translation: Translation })
     });
   };
 
-	const createRegister = async() => {
-		const monthQuery = searchParams.get('month') || currentMonth();
-		const yearQuery = searchParams.get('year') || String(currentYear());
+  const createRegister = async () => {
+    const monthQuery = searchParams.get("month") || currentMonth();
+    const yearQuery = searchParams.get("year") || String(currentYear());
 
-		const response = await fetch("/api/create-transaction", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				description: formData.description,
-				category: formData.category,
-				amount: Number(formData.amount),
-				transaction_type: formData.type,
-				transaction_date: new Date(Number(yearQuery), Number(monthQuery), 1),
-			}),
-		});
+    const response = await fetch("/api/create-transaction", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        description: formData.description,
+        category: formData.category,
+        amount: Number(formData.amount),
+        transaction_type: formData.type,
+        transaction_date: new Date(Number(yearQuery), Number(monthQuery), 1),
+      }),
+    });
 
-		if (response.ok) {
-			await response.json();
-			setSnackMessage(translation.REGISTER_CREATED);
-			setOpenSnack(true);
-			fetchData();
-		} else {
-			const errorData = await response.json();
-			console.error(translation.ERROR_CREATING_TRANSACTION, errorData);
-		}
+    if (response.ok) {
+      await response.json();
+      setSnackMessage(translation.REGISTER_CREATED);
+      setOpenSnack(true);
+      fetchData();
+    } else {
+      const errorData = await response.json();
+      console.error(translation.ERROR_CREATING_TRANSACTION, errorData);
+    }
 
-		setFormData({
-			category: "",
-			amount: "0",
-			description: "",
-			type: "expense",
-		});
-	}
+    setFormData({
+      category: "",
+      amount: "0",
+      description: "",
+      type: "expense",
+    });
+  };
 
-	const editRegister = async() => {
-		const response = await fetch(`/api/edit-transaction/${editId}`, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				description: formData.description,
-				category: formData.category,
-				amount: Number(formData.amount),
-				transaction_type: formData.type,
-				updated_at: new Date(),
-			}),
-		});
+  const editRegister = async () => {
+    const response = await fetch(`/api/edit-transaction/${editId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        description: formData.description,
+        category: formData.category,
+        amount: Number(formData.amount),
+        transaction_type: formData.type,
+        updated_at: new Date(),
+      }),
+    });
 
-		if (response.ok) {
-			fetchData();
-			setSnackMessage(translation.REGISTER_UPDATED);
-			setOpenSnack(true);
-		} else {
-			const errorData = await response.json();
-			console.error(translation.ERROR_UPDATING_TRANSACTION, errorData);
-		}
-		setModalOpen(false);
-	}
+    if (response.ok) {
+      fetchData();
+      setSnackMessage(translation.REGISTER_UPDATED);
+      setOpenSnack(true);
+    } else {
+      const errorData = await response.json();
+      console.error(translation.ERROR_UPDATING_TRANSACTION, errorData);
+    }
+    setModalOpen(false);
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-		setLoading(true);
+    setLoading(true);
     if (modalTitle === translation.ADD_REGISTER) {
-			await createRegister();
+      await createRegister();
     } else {
-			await editRegister();
+      await editRegister();
     }
 
-		setLoading(false);
+    setLoading(false);
   };
 
   const handleModalCreate = () => {
-		setFormData({
-			category: "",
-			amount: "0",
-			description: "",
-			type: "expense",
-		});
+    setFormData({
+      category: "",
+      amount: "0",
+      description: "",
+      type: "expense",
+    });
     setModalTitle(translation.ADD_REGISTER);
     setModalOpen(true);
   };
@@ -240,21 +253,21 @@ export default function Container({ translation }: { translation: Translation })
     });
   };
 
-	const filteredTransactions = data?.filter(transaction =>
+  const filteredTransactions = data?.filter((transaction) =>
     transaction.description.toLowerCase().includes(searchText.toLowerCase())
   );
 
-	const handleCloseSnack = (
+  const handleCloseSnack = (
     event: React.SyntheticEvent | Event,
-    reason?: SnackbarCloseReason,
+    reason?: SnackbarCloseReason
   ) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpenSnack(false);
   };
 
-	const action = (
+  const action = (
     <React.Fragment>
       <Button color="secondary" size="small" onClick={handleClose} />
       <IconButton
@@ -274,256 +287,284 @@ export default function Container({ translation }: { translation: Translation })
         <div className="flex flex-col">
           <Filters translation={translation} />
 
-					
           {loading && (
             <div className="flex flex-col mt-6">
-							<CircularProgress size={36} color="success" className="mt-2" />
+              <CircularProgress size={36} color="success" className="mt-2" />
             </div>
           )}
           {error && (
             <div className="flex flex-col mt-6">
-              <p>Error: {error} | {translation.TRY_REFRESHING_PAGE}</p>
+              <p>
+                Error: {error} | {translation.TRY_REFRESHING_PAGE}
+              </p>
             </div>
           )}
 
-					{!loading && !error && (
-						<div className="flex flex-col mt-6">
-							<p>
-								<span className="text-slate-200 font-medium">{translation.REVENUES}:</span>
-								<span className="text-green-600 ml-2">
-									{summary?.incomes
-										? new Intl.NumberFormat("pt-BR", {
-												style: "currency",
-												currency: "BRL",
-											}).format(summary?.incomes)
-										: "R$ 0,00"}
-								</span>
-							</p>
-							<p>
-								<span className="text-slate-200 font-medium">{translation.EXPENSES}:</span>
-								<span className="text-red-600 ml-2">
-									{summary?.spents
-										? new Intl.NumberFormat("pt-BR", {
-												style: "currency",
-												currency: "BRL",
-											}).format(summary.spents)
-										: "R$ 0,00"}
-								</span>
-							</p>
-							<p>
-								<span className="text-slate-200 font-medium">{translation.BALANCE}:</span>
-								<span
-									className={`ml-2 ${
-										summary?.total === 0 ? "text-red-600" : "text-green-600"
-									}`}
-								>
-									{summary?.total
-										? new Intl.NumberFormat("pt-BR", {
-												style: "currency",
-												currency: "BRL",
-											}).format(summary.total)
-										: "R$ 0,00"}
-								</span>
-							</p>
-							<div className="mt-6">
-								<TextField
-									id="search-bar"
-									className="text"
-									color="success"
-									value={searchText}
-        					onChange={(e) => setSearchText(e.target.value)}
-									variant="outlined"
-									size="small"
-									InputLabelProps={{
-										shrink: true,
-									}}
-									sx={{
-										maxWidth: "20ch",
-										backgroundColor: "rgb(27, 38, 49)",
-										"& .MuiOutlinedInput-root": {
-											color: "rgb(226 232 240)",
-											"& .MuiOutlinedInput-notchedOutline": {
-												borderColor: "rgba(228, 219, 233, 0.25)",
-											},
-											"&.Mui-focused": {
-												"& .MuiOutlinedInput-notchedOutline": {
-													borderColor: "green",
-												},
-											},
-											"&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-											{
-												borderColor: "green",
-											},
-											"&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-											{
-												borderColor: "green",
-											},
-										},
-										"& .MuiInputLabel-outlined": {
-											color: "rgb(226 232 240)",
-											fontWeight: "bold",
-											"&.Mui-focused": {
-												color: "green",
-											},
-										},
-									}}
-								/>
-								<IconButton aria-label="search" title={translation.SEARCH_BY_DESCRIPTION}>
-									<SearchIcon style={{ fill: "green" }} />
-								</IconButton>
-							</div>
-						</div>
-					)}
+          {!loading && !error && (
+            <div className="flex flex-col mt-6">
+              <p>
+                <span className="text-slate-200 font-medium">
+                  {translation.REVENUES}:
+                </span>
+                <span className="text-green-600 ml-2">
+                  {summary?.incomes
+                    ? new Intl.NumberFormat(lang === "pt" ? "pt-BR" : "en-US", {
+                        style: "currency",
+                        currency: lang === "pt" ? "BRL" : "USD",
+                      }).format(summary.incomes)
+                    : lang === "pt"
+                    ? "R$ 0,00"
+                    : "$0.00"}
+                </span>
+              </p>
+              <p>
+                <span className="text-slate-200 font-medium">
+                  {translation.EXPENSES}:
+                </span>
+                <span className="text-red-600 ml-2">
+                  {summary?.spents
+                    ? new Intl.NumberFormat(lang === "pt" ? "pt-BR" : "en-US", {
+                        style: "currency",
+                        currency: lang === "pt" ? "BRL" : "USD",
+                      }).format(summary.spents)
+                    : lang === "pt"
+                    ? "R$ 0,00"
+                    : "$0.00"}
+                </span>
+              </p>
+              <p>
+                <span className="text-slate-200 font-medium">
+                  {translation.BALANCE}:
+                </span>
+                <span
+                  className={`ml-2 ${
+                    summary?.total === 0 ? "text-red-600" : "text-green-600"
+                  }`}
+                >
+                  {summary?.total
+                    ? new Intl.NumberFormat(lang === "pt" ? "pt-BR" : "en-US", {
+                        style: "currency",
+                        currency: lang === "pt" ? "BRL" : "USD",
+                      }).format(summary.total)
+                    : lang === "pt"
+                    ? "R$ 0,00"
+                    : "$0.00"}
+                </span>
+              </p>
+              <div className="mt-6">
+                <TextField
+                  id="search-bar"
+                  className="text"
+                  color="success"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  variant="outlined"
+                  size="small"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  sx={{
+                    maxWidth: "20ch",
+                    backgroundColor: "rgb(27, 38, 49)",
+                    "& .MuiOutlinedInput-root": {
+                      color: "rgb(226 232 240)",
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "rgba(228, 219, 233, 0.25)",
+                      },
+                      "&.Mui-focused": {
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "green",
+                        },
+                      },
+                      "&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                        {
+                          borderColor: "green",
+                        },
+                      "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                        {
+                          borderColor: "green",
+                        },
+                    },
+                    "& .MuiInputLabel-outlined": {
+                      color: "rgb(226 232 240)",
+                      fontWeight: "bold",
+                      "&.Mui-focused": {
+                        color: "green",
+                      },
+                    },
+                  }}
+                />
+                <IconButton
+                  aria-label="search"
+                  title={translation.SEARCH_BY_DESCRIPTION}
+                >
+                  <SearchIcon style={{ fill: "green" }} />
+                </IconButton>
+              </div>
+            </div>
+          )}
         </div>
 
-				<div>
-					<button
-						type="button"
-						onClick={handleModalCreate}
-						className="px-3 py-3 bg-green-600 text-white rounded hover:bg-green-400 mt-40"
-					>
-						{translation.ADD_REGISTER}
-					</button>
-					{modalOpen && (
-						<div
-							className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70"
-							onClick={handleClose}
-							onKeyDown={(e) => {
-								if (e.key === 'Escape') handleClose();
-							}}
-						>
-							<div
-								className="bg-white rounded-lg p-6 min-w-96"
-								onClick={(e) => e.stopPropagation()}
-								onKeyUp={(e) => e.stopPropagation()}
-							>
-								<div className="flex justify-between">
-									<h2
-										id="modal-modal-title"
-										className="text-2xl flex items-center justify-center font-bold mb-6 text-gray-700 mt-2 ml-4"
-									>
-										{modalTitle}
-									</h2>
-									<Box>
-										<IconButton onClick={handleClose} title="Fechar">
-											<CloseIcon />
-										</IconButton>
-									</Box>
-								</div>
-								<div id="modal-modal-description" className="mt-2 text-gray-700">
-									<form
-										onSubmit={handleSubmit}
-										className="flex flex-col items-left"
-									>
-										<TextField
-											id="description"
-											label={translation.DESCRIPTION}
-											sx={{ m: 1 }}
-											InputLabelProps={{
-												shrink: true,
-											}}
-											name="description"
-											value={formData.description}
-											onChange={handleChangeForm}
-										/>
-										<TextField
-											id="amount"
-											label={translation.VALUE}
-											sx={{ m: 1 }}
-											InputProps={{
-												startAdornment: (
-													<InputAdornment position="start">R$</InputAdornment>
-												),
-											}}
-											name="amount"
-											value={formData.amount}
-											onChange={handleChangeForm}
-										/>
-										<TextField
-											id="category"
-											label={translation.CATEGORY}
-											sx={{ m: 1 }}
-											InputLabelProps={{
-												shrink: true,
-											}}
-											name="category"
-											value={formData.category}
-											onChange={handleChangeForm}
-										/>
+        <div>
+          <button
+            type="button"
+            onClick={handleModalCreate}
+            className="px-3 py-3 bg-green-600 text-white rounded hover:bg-green-400 mt-40"
+          >
+            {translation.ADD_REGISTER}
+          </button>
+          {modalOpen && (
+            <div
+              className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70"
+              onClick={handleClose}
+              onKeyDown={(e) => {
+                if (e.key === "Escape") handleClose();
+              }}
+            >
+              <div
+                className="bg-white rounded-lg p-6 min-w-96"
+                onClick={(e) => e.stopPropagation()}
+                onKeyUp={(e) => e.stopPropagation()}
+              >
+                <div className="flex justify-between">
+                  <h2
+                    id="modal-modal-title"
+                    className="text-2xl flex items-center justify-center font-bold mb-6 text-gray-700 mt-2 ml-4"
+                  >
+                    {modalTitle}
+                  </h2>
+                  <Box>
+                    <IconButton onClick={handleClose} title="Fechar">
+                      <CloseIcon />
+                    </IconButton>
+                  </Box>
+                </div>
+                <div
+                  id="modal-modal-description"
+                  className="mt-2 text-gray-700"
+                >
+                  <form
+                    onSubmit={handleSubmit}
+                    className="flex flex-col items-left"
+                  >
+                    <TextField
+                      id="description"
+                      label={translation.DESCRIPTION}
+                      sx={{ m: 1 }}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      name="description"
+                      value={formData.description}
+                      onChange={handleChangeForm}
+                    />
+                    <TextField
+                      id="amount"
+                      label={translation.VALUE}
+                      sx={{ m: 1 }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">{translation.COIN_SYMBOL}</InputAdornment>
+                        ),
+                      }}
+                      name="amount"
+                      value={formData.amount}
+                      onChange={handleChangeForm}
+                    />
+                    <TextField
+                      id="category"
+                      label={translation.CATEGORY}
+                      sx={{ m: 1 }}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      name="category"
+                      value={formData.category}
+                      onChange={handleChangeForm}
+                    />
 
-										<FormControl>
-											<RadioGroup
-												aria-labelledby="demo-radio-buttons-group-label"
-												name="type"
-												value={formData.type}
-												onChange={handleChangeForm}
-												className="px-4"
-											>
-												<FormControlLabel
-													value="expense"
-													control={
-														<Radio
-															color="error"
-															checked={formData.type === "expense"}
-															onChange={handleChangeForm}
-														/>
-													}
-													label={translation.EXPENSE}
-												/>
-												<FormControlLabel
-													value="income"
-													control={
-														<Radio
-															color="success"
-															checked={formData.type === "income"}
-															onChange={handleChangeForm}
-														/>
-													}
-													label={translation.REVENUE}
-												/>
-											</RadioGroup>
-										</FormControl>
-										<button
-											type="submit"
-											className={`mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-400
-											${loading && "cursor-not-allowed opacity-50" }`}
-										>
-											{loading ? <CircularProgress size={16} color="success" className="mt-2" /> : modalTitle}
-										</button>
-									</form>
-								</div>
-							</div>
-						</div>
-					)}
-				</div>
+                    <FormControl>
+                      <RadioGroup
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        name="type"
+                        value={formData.type}
+                        onChange={handleChangeForm}
+                        className="px-4"
+                      >
+                        <FormControlLabel
+                          value="expense"
+                          control={
+                            <Radio
+                              color="error"
+                              checked={formData.type === "expense"}
+                              onChange={handleChangeForm}
+                            />
+                          }
+                          label={translation.EXPENSE}
+                        />
+                        <FormControlLabel
+                          value="income"
+                          control={
+                            <Radio
+                              color="success"
+                              checked={formData.type === "income"}
+                              onChange={handleChangeForm}
+                            />
+                          }
+                          label={translation.REVENUE}
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                    <button
+                      type="submit"
+                      className={`mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-400
+											${loading && "cursor-not-allowed opacity-50"}`}
+                    >
+                      {loading ? (
+                        <CircularProgress
+                          size={16}
+                          color="success"
+                          className="mt-2"
+                        />
+                      ) : (
+                        modalTitle
+                      )}
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
-			{!loading && !error && data !== null && data.length === 0 && (
-				<div className="container mx-auto flex flex-row max-w-5xl items-center justify-between py-4 px-6">
-					<div className="container mx-auto mt-10 bg-green-700 py-4 px-4 flex items-center justify-center">
-						<WarningIcon fontSize="small" />
-						<span className="ml-2 pt-1">{translation.NO_TRANSACTIONS_FOUND}</span>
-					</div>
-				</div>
-			)}
+      {!loading && !error && data !== null && data.length === 0 && (
+        <div className="container mx-auto flex flex-row max-w-5xl items-center justify-between py-4 px-6">
+          <div className="container mx-auto mt-10 bg-green-700 py-4 px-4 flex items-center justify-center">
+            <WarningIcon fontSize="small" />
+            <span className="ml-2 pt-1">
+              {translation.NO_TRANSACTIONS_FOUND}
+            </span>
+          </div>
+        </div>
+      )}
 
-      {!loading && !error && (data !== null && data.length > 0) && (
+      {!loading && !error && data !== null && data.length > 0 && (
         <div className="container mx-auto flex flex-row-reverse max-w-5xl items-center justify-between py-4 px-6">
           <TableContainer component={Paper} className="max-w-5xl">
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow className="bg-green-500">
                   <TableCell className="font-semibold text-slate-100">
-										{translation.DESCRIPTION}
+                    {translation.DESCRIPTION}
                   </TableCell>
                   <TableCell className="font-semibold text-slate-100">
-										{translation.VALUE}
+                    {translation.VALUE}
                   </TableCell>
                   <TableCell className="font-semibold text-slate-100">
-										{translation.CATEGORY}
+                    {translation.CATEGORY}
                   </TableCell>
-                  <TableCell>
-									</TableCell>
+                  <TableCell></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -538,10 +579,13 @@ export default function Container({ translation }: { translation: Translation })
                     <TableCell
                       className={getColorTextByType(row.transaction_type)}
                     >
-                      {new Intl.NumberFormat("pt-BR", {
-                        style: "currency",
-                        currency: "BRL",
-                      }).format(row.amount)}
+                      {new Intl.NumberFormat(
+                        lang === "pt" ? "pt-BR" : "en-US",
+                        {
+                          style: "currency",
+                          currency: lang === "pt" ? "BRL" : "USD",
+                        }
+                      ).format(row.amount)}
                     </TableCell>
                     <TableCell>{row.category}</TableCell>
 
@@ -565,8 +609,8 @@ export default function Container({ translation }: { translation: Translation })
           </TableContainer>
         </div>
       )}
-			
-			<Snackbar
+
+      <Snackbar
         open={openSnack}
         autoHideDuration={6000}
         onClose={handleCloseSnack}

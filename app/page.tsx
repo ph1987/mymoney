@@ -21,7 +21,7 @@ export default function Landing() {
       </Head>
 
       <div className="min-h-screen flex flex-col bg-gray-900 text-white">
-        <header className="bg-gray-800 px-8 py-4">
+        <header className="bg-gray-800 px-2 py-4">
           <h1 className="text-2xl font-bold ml-10">
             <span className="text-green-500">My</span>
             <span className="text-slate-100">Money</span>
@@ -42,7 +42,7 @@ export default function Landing() {
           <div className="grid gap-8 md:grid-cols-2 mt-4">
             <div className="flex flex-col items-center">
               <Image
-                src="/myapp1.png"
+                src={translation.PRINT_LIST}
                 alt="Screenshot da aplicação MyMoney (1)"
                 width={600}
                 height={400}
@@ -54,7 +54,7 @@ export default function Landing() {
             </div>
             <div className="flex flex-col items-center">
               <Image
-                src="/myapp2.png"
+                src={translation.PRINT_ADD}
                 alt="Screenshot da aplicação MyMoney (2)"
                 width={600}
                 height={400}
