@@ -30,6 +30,15 @@ export default function Landing() {
         </header>
 
         <main className="flex-1 container mx-auto px-4 py-8">
+					<div className="flex justify-center items-center gap-4 mb-6">
+            <LoginBtn provider="google" title={translation.LOGIN_WITH_GOOGLE} />
+            <LoginBtn
+              provider="facebook"
+              title={translation.LOGIN_WITH_FACEBOOK}
+              disable={true}
+            />
+          </div>
+
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="text-xl font-bold mb-3 text-green-400">
               {translation.MANAGE_YOUR_FINANCES_SIMPLY}
@@ -64,15 +73,6 @@ export default function Landing() {
                 {translation.CREATE_RECORD_MODAL}
               </p>
             </div>
-          </div>
-
-          <div className="flex justify-center items-center gap-4 mt-10">
-            <LoginBtn provider="google" title={translation.LOGIN_WITH_GOOGLE} />
-            <LoginBtn
-              provider="facebook"
-              title={translation.LOGIN_WITH_FACEBOOK}
-              disable={true}
-            />
           </div>
         </main>
 
